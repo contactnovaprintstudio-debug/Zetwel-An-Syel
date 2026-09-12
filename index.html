@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Un message pour aujourd'hui</title>
+<style>
+  :root {
+    --bg: #f4f1ea;
+    --card: #fffdf8;
+    --border: #e2dccb;
+    --text: #3a352c;
+    --text-muted: #8a8375;
+    --accent: #b99a5b;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color: var(--text);
+    padding: 24px;
+  }
+  .card {
+    width: 100%;
+    max-width: 420px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 48px 36px;
+    text-align: center;
+  }
+  .star {
+    width: 22px;
+    height: 22px;
+    margin: 0 auto 24px;
+    display: block;
+    fill: var(--accent);
+  }
+  .label {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin: 0 0 4px;
+    letter-spacing: 0.02em;
+  }
+  .date {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin: 0 0 36px;
+    text-transform: capitalize;
+  }
+  .message {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 21px;
+    line-height: 1.65;
+    color: var(--text);
+    margin: 0;
+  }
+  footer {
+    margin-top: 40px;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+</style>
+</head>
+<body>
+<div class="card">
+  <svg class="star" viewBox="0 0 24 24"><path d="M12 2 L14.5 9.5 L22 9.5 L16 14.5 L18 22 L12 17.5 L6 22 L8 14.5 L2 9.5 L9.5 9.5 Z"/></svg>
+  <p class="label" id="label">Message du jour</p>
+  <p class="date" id="date"></p>
+  <p class="message" id="message"></p>
+  <footer>posé avec attention, chaque jour</footer>
+</div>
+
+<script>
+  const messages = [
+    "Ce que tu as aimé reste présent, même quand la douleur change de forme.",
+    "Tu n'as pas à aller bien aujourd'hui. Juste à respirer.",
+    "Certains liens ne s'effacent pas avec l'absence.",
+    "Prends un instant. Rien ne presse.",
+    "Le souvenir n'est pas un poids, c'est une trace de ce qui a compté.",
+    "Tu portes cette mémoire avec toi, et ce n'est pas rien.",
+    "Il est normal que certains jours soient plus lourds que d'autres.",
+    "Ce lien reste, à sa manière.",
+    "Il n'y a pas de bonne façon de traverser ça, seulement la tienne.",
+    "Tu n'as rien à prouver aujourd'hui, à personne.",
+    "Ce que tu ressens a sa place, même si tu ne le comprends pas encore.",
+    "Il est possible d'avancer sans laisser derrière.",
+    "Certains jours se traversent, un moment après l'autre.",
+    "Ta peine n'a pas de date limite.",
+    "Ce que tu portes, tu n'as pas à le porter seul.",
+    "Il n'y a rien à réparer, juste à traverser.",
+    "Le silence peut aussi être un endroit où se reposer.",
+    "Rien ne t'oblige à sourire aujourd'hui.",
+    "Ce lien-là ne dépend pas du temps qui passe.",
+    "Tu as le droit de penser à autre chose, sans culpabilité.",
+    "Chaque jour n'a pas à être plus facile que le précédent.",
+    "Il est possible d'être triste et bien entouré à la fois.",
+    "Ce que tu as vécu continue de compter.",
+    "Tu peux avancer à ton rythme, sans le justifier.",
+    "Il n'y a pas de mauvaise façon de se souvenir.",
+    "Ce moment difficile n'efface pas ce qui a été beau.",
+    "Tu n'es pas seul, même les jours où tu te sens seul.",
+    "Le temps ne guérit pas tout, mais il t'accompagne.",
+    "Tu as le droit de ralentir, aujourd'hui comme un autre jour.",
+    "Ce que tu ressens est légitime, quelle que soit sa forme."
+  ];
+
+  // messages ponctuels : une date précise remplace le message du jour
+  // format de la clé : 'AAAA-MM-JJ'
+  const evenements = {
+    '2026-10-17': "Aujourd'hui, les 3e Assises du Deuil Périnatal réunissent celles et ceux qui avancent ensemble sur ce chemin.",
+  };
+
+  const today = new Date();
+  const todayKey = today.toISOString().split('T')[0];
+
+  let texte;
+  if (evenements[todayKey]) {
+    texte = evenements[todayKey];
+    document.getElementById('label').textContent = "à retenir aujourd'hui";
+  } else {
+    const start = new Date(today.getFullYear(), 0, 0);
+    const diff = today - start;
+    const dayOfYear = Math.floor(diff / (1000 * 60 * 60 * 24));
+    texte = messages[dayOfYear % messages.length];
+  }
+
+  document.getElementById('message').textContent = texte;
+  document.getElementById('date').textContent = today.toLocaleDateString('fr-FR', {
+    weekday: 'long', day: 'numeric', month: 'long'
+  });
+</script>
+</body>
+</html>
